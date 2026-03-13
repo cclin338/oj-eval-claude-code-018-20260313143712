@@ -679,7 +679,8 @@ Value Cond::eval(Assoc &env) {
             if (v->x == "else") {
                 // Evaluate all expressions in the else clause
                 if (clause.size() == 1) {
-                    return BooleanV(true);
+                    // For (cond (else)) with no body, evaluate else as a variable
+                    return clause[0]->eval(env);
                 }
                 Value result = VoidV();
                 for (size_t i = 1; i < clause.size(); i++) {
